@@ -6,7 +6,7 @@
 <form class="formularioLogin" action="{{ route('login.store') }}" method="post">
     @csrf
     <label for="usuario">Usuario</label>
-    <input type="text" minlength="9" maxlength="9" name="usuario" required>
+    <input type="text" name="usuario" required>
     <label for="contrasena">Contraseña</label>
     <input type="password" name="contrasena" required>
     <div class="botones">

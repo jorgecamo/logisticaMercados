@@ -7,6 +7,8 @@ use App\Models\Pedido;
 use App\Models\Puesto;
 use App\Models\Usuario;
 use App\Models\Cliente;
+use App\Models\Estado_pedido;
+use App\Models\Metodo_pago;
 use Illuminate\Support\Facades\Log;
 
 
@@ -18,7 +20,7 @@ class ConserjeController extends Controller
      */
     public function index()
     {
-        //
+        return view('conserje/vistaConserje');
     }
 
     /**
@@ -43,9 +45,16 @@ class ConserjeController extends Controller
     public function show(string $id)
     {
         $pedidoPorId = Pedido::where('Id_pedido', $id)->first();
+
+        $estadoPedido = Estado_pedido::where('Id_estado', $pedidoPorId->Id_estado)->first();
         $datosCliente = Cliente::where('Id_cliente', $pedidoPorId->Id_cliente)->first();
-        $puestoQueRealizaElPedido = Puesto::where('Id_usuario', $pedidoPorId->Id_usuario)->first();
-        return compact('pedidoPorId', 'datosCliente', 'puestoQueRealizaElPedido');
+        $usuarioQueRealizaElPedido = Usuario::where('Id_usuario', $pedidoPorId->Id_usuario)->first();
+        if ($pedidoPorId->Id_metodo_pago) {
+            $metodoPagoPedido = Metodo_pago::where('Id_metodo', $pedidoPorId->Id_metodo_pago)->first();
+            return compact('pedidoPorId', 'datosCliente', 'usuarioQueRealizaElPedido', 'estadoPedido', 'metodoPagoPedido');
+        } else {
+            return compact('pedidoPorId', 'datosCliente', 'usuarioQueRealizaElPedido', 'estadoPedido');
+        }
     }
 
     /**
@@ -75,15 +84,39 @@ class ConserjeController extends Controller
     public function filtrarPorFecha(Request $request)
     {
         $fecha = $request->input('fecha');
-        $pedidosfecha = Pedido::whereDate('fecha_pedido', $fecha)->get();
+        $pedidosfecha = Pedido::where('fecha_pedido', $request->fecha)
+            ->orderBy('Id_usuario', 'asc')
+            ->get();
         return view('conserje/vistaConserje', compact('pedidosfecha'));
     }
 
     public function actualizarEstado($id, Request $request)
     {
         $pedido = Pedido::where('Id_pedido', $id)->firstOrFail();
-        $pedido->estado = $request->estado;
+        $pedido->Id_estado = $request->estado;
         $pedido->save();
         return response()->json(['success' => true, 'message' => 'Estado del pedido actualizado correctamente']);
+    }
+
+    public function ordenarPorPuesto(Request $request)
+    {
+        $orden = $request->input('orden', 'desc');
+        $pedidosfecha = Pedido::where('fecha_pedido', $request->fecha)
+            ->join('usuarios', 'pedidos.Id_usuario', '=', 'usuarios.Id_usuario')
+            ->orderBy('usuarios.nombre', $orden)
+            ->select('pedidos.*')
+            ->get();
+        return view('conserje/vistaConserje', compact('pedidosfecha'));
+    }
+
+    public function ordenarPorCliente(Request $request)
+    {
+        $orden = $request->input('orden', 'desc');
+        $pedidosfecha = Pedido::where('fecha_pedido', $request->fecha)
+            ->join('clientes', 'pedidos.Id_cliente', '=', 'clientes.Id_cliente')
+            ->orderBy('clientes.nombre', $orden)
+            ->select('pedidos.*')
+            ->get();
+        return view('conserje/vistaConserje', compact('pedidosfecha'));
     }
 }

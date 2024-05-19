@@ -23,15 +23,16 @@
         </div>
 
         <div class="from-group">
-            <label for="total_pedido">Cantidad total del pedido:</label>
-            <input type="number" id="total_pedido" name="total_pedido" min="0" step="1">
+            <label for="bultos">Numero de bultos:</label>
+            <input type="number" id="bultos" name="bultos" min="1" step="1" max="10"
+                onchange="actualizarMaximo()" value="1">
+            <label for="bultos_perecederos">Bultos perecederos:</label>
+            <input type="number" id="bultos_perecederos" name="bultos_perecederos" min="0" step="1"
+                max="10" value="0">
         </div>
-
         <div class="from-group">
             <label for="pagado">Pagado:</label>
             <input type="checkbox" id="pagado" name="pagado" value="true">
-            <label for="perecedero">Perecedero:</label>
-            <input type="checkbox" id="perecedero" name="perecedero" value="true">
 
             <div class="metodos_pago" id="metodos_pago">
                 <label for="efectivo">Efectivo:</label>
@@ -41,6 +42,12 @@
             </div>
 
         </div>
+        <div class="from-group">
+            <label for="total_pedido">Cantidad total del pedido:</label>
+            <input type="number" id="total_pedido" name="total_pedido" min="0" step="1">
+        </div>
+
+
 
         <div class="botones">
             <button type="submit" class="btn btn-primary">Enviar</button>
@@ -59,12 +66,20 @@
                 }
             });
         });
+
+        function actualizarMaximo() {
+            var bultos = document.getElementById("bultos").value;
+            var bultosPerecederosInput = document.getElementById("bultos_perecederos");
+
+            bultosPerecederosInput.setAttribute("max", bultos);
+        }
+
         $(document).ready(function() {
             $('#id_cliente').change(function() {
                 var Id_cliente = $(this).val();
                 $.ajax({
                     url: '/clientes/' +
-                    Id_cliente, // Corregido a '/clientes/' en lugar de '/cliente.show/'
+                        Id_cliente, // Corregido a '/clientes/' en lugar de '/cliente.show/'
                     type: 'GET',
                     success: function(response) {
                         $('#direccion').empty();
@@ -73,7 +88,8 @@
                                 '<option value="">No tiene direcciones</option>');
                         } else {
                             $.each(response.direcciones, function(key, value) {
-                                $('#direccion').append('<option value="' + value.direcciones + '">' + value.direcciones +
+                                $('#direccion').append('<option value="' + value
+                                    .direcciones + '">' + value.direcciones +
                                     '</option>');
                             });
                         }

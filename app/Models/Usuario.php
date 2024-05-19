@@ -11,6 +11,8 @@ class Usuario extends Authenticatable
 {
     use HasFactory, Notifiable, HasFactory;
     protected $table = 'usuarios';
+    protected $primaryKey = 'Id_usuario';
+
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +25,7 @@ class Usuario extends Authenticatable
         'rol',
         'telefono',
         'contrasenya',
+        'baja'
     ];
 
     /**
@@ -44,4 +47,25 @@ class Usuario extends Authenticatable
             'contrasenya' => 'hashed',
         ];
     }
+
+    public function rol()
+    {
+        return $this->belongsTo(Rol::class, 'Id_rol');
+    }
+
+    public function mercado()
+    {
+        return $this->belongsTo(Mercado::class, 'Id_mercado ');
+    }
+
+    public function puesto()
+    {
+        return $this->hasOne(Puesto::class, 'Id_usuario');
+    }
+
+    public function pedidos()
+    {
+        return $this->hasMany(Pedido::class, 'Id_pedido');
+    }
+
 }

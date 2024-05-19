@@ -6,7 +6,7 @@
         @vite(['resources/sass/app.scss', 'resources/js/app.js'])     
        </head>
         <body>
-            @include('partials.nav')
+            @include('partials.navInicio')
             @yield('contenido')
     </body>
 </html>

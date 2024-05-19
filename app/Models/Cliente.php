@@ -15,4 +15,14 @@ class Cliente extends Model
     {
         return $this->hasMany(Direccion::class, 'Id_cliente');
     }
+
+    public function pedidos()
+    {
+        return $this->hasMany(Pedido::class, 'Id_cliente');
+    }
+
+    public function mercados()
+    {
+        return $this->belongsTo('App\Models\Mercado', 'Id_mercado');
+    }
 }

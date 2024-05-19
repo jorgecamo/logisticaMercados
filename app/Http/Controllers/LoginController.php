@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cliente;
 use App\Models\Pedido;
 use App\Models\Puesto;
+use App\Models\Rol;
 use Illuminate\Http\Request;
 use App\Models\Usuario;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -36,12 +37,18 @@ class LoginController extends Controller
             $usuario = Usuario::where('DNI', $request -> get('usuario'))->firstOrFail();
             // Verificar la contraseña
             if (($request->get('contrasena') == $usuario->contrasenya)) {
-                if ($usuario->rol == 'conserje'){
+            $rolconserje = Rol::where('rol', 'conserje')->firstOrFail();
+            $rolvendedor = Rol::where('rol', 'vendedor')->firstOrFail();
+
+
+                if ($usuario->Id_rol == $rolconserje -> Id_rol){
                     return view('conserje/vistaConserje');
-                } else {
+                } else if($usuario->Id_rol == $rolvendedor -> Id_rol){
                     $Id_usuario = $usuario -> Id_usuario;
-                    $clientes = Cliente::get(); //para cargar los clientes en el desplegable
+                    $clientes = Cliente::where('Id_mercado', $usuario -> Id_mercado)->where('baja',false)->get(); //para cargar los clientes en el desplegable del mismo mercado que el usuario
                     return view('vendedor/vistaVendedor',compact('clientes','Id_usuario'));
+                }else{
+                    return view('admin/vistaAdmin');
                 }
             } else {
                 return redirect()->back()->withErrors(['contrasenya' => 'Contraseña incorrecta']);

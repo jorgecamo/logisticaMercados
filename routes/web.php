@@ -18,4 +18,8 @@ Route::get('/clientes/{id}', [ClienteController::class, 'show']);
 
 Route::get('/conserje/filtrar', [ConserjeController::class, 'filtrarPorFecha'])->name('conserje.filtrarPorFecha');
 Route::post('/conserje/actualizar-estado/{id}', [ConserjeController::class, 'actualizarEstado'])->name('conserje.actualizarEstado');
+Route::get('/conserje/ordenarPuesto', [ConserjeController::class, 'ordenarPorPuesto'])->name('conserje.ordenarPorPuesto');
+Route::get('/conserje/ordenarCliente', [ConserjeController::class, 'ordenarPorCliente'])->name('conserje.ordenarPorCliente');
+
+
 Route::resource('conserje', ConserjeController::class);
