@@ -128,9 +128,7 @@ class VendedorController extends Controller
                 $pedido->franja_horaria = '11:00:00';
             }
         }
-
-        Log::debug($numeroDeBultosPorFranjaManana);
-
+        
         $pedido->total_pedido = $request->get('total_pedido');
         $pedido->save();
 

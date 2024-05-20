@@ -12,9 +12,11 @@
         <table class="table table-striped" id="pedidosTabla">
             <tr>
                 <th><a href="{{ route('conserje.ordenarPorPuesto', ['fecha' => request('fecha'), 'orden' => request('orden') == 'asc' ? 'desc' : 'asc']) }}"
-                        id="ordenarPorPuesto" class="text-decoration-none text-primary font-weight-bold mx-2" title="Ordenar por puesto">Puesto</a></th>
+                        id="ordenarPorPuesto" class="text-decoration-none text-primary font-weight-bold mx-2"
+                        title="Ordenar por puesto">Puesto</a></th>
                 <th><a href="{{ route('conserje.ordenarPorCliente', ['fecha' => request('fecha'), 'orden' => request('orden') == 'asc' ? 'desc' : 'asc']) }}"
-                    id="ordenarPorCliente" class="text-decoration-none text-primary font-weight-bold mx-2" title="Ordenar por cliente">Cliente</th>
+                        id="ordenarPorCliente" class="text-decoration-none text-primary font-weight-bold mx-2"
+                        title="Ordenar por cliente">Cliente</th>
                 <th>Pagado</th>
                 <th>Total</th>
                 <th>Direccion</th>
@@ -145,10 +147,8 @@
 
         // Función para enviar el formulario solo una vez al cargar la pagina, con ayuda de localstorage
         function enviarFormulario() {
-            if (!formularioEnviado) {
-                formularioFecha.submit();
-                localStorage.setItem('formularioEnviado', true);
-            }
+            formularioFecha.submit();
+            localStorage.setItem('formularioEnviado', true);
         }
         //Funcion para que se ejecute el formulario fecha con el boton submit
         formularioFecha.addEventListener('submit', function(event) {

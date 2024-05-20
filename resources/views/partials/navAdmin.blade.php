@@ -3,13 +3,19 @@
     <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
     <li class="nav-item">
-    <a class="nav-link" href="{{ route('inicio') }}">Inicio</a>
+    <a class="nav-link" href="{{ route('logout') }}">Inicio</a>
     </li>
     <li class="nav-item active">
-        <a class="nav-link" href="#">Listado clientes</a>
+        <a class="nav-link" href="{{ route('admin.index') }}">Listado clientes</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">Listado usuarios</a>
+        <a class="nav-link" href="{{ route('admin.usuarios') }}">Listado usuarios</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.puestos') }}">Listado puestos</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.mercados') }}">Listado mercados</a>
     </li>
     </ul>
     </div>
