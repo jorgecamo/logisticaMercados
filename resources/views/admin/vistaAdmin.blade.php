@@ -24,7 +24,7 @@
         <td><a class="btn {{ $cliente->baja == 0 ? 'btn-danger' : 'btn-success' }}" href="{{ route('admin.edit', $cliente->Id_cliente) }}">{{ $cliente->baja == 0 ? 'DAR DE BAJA' : 'DAR DE ALTA' }}</a></td>
     </tr>
     @empty
-    <p>No se encontraron pedidos</p>
+    <p>No se encontraron clientes</p>
 @endforelse
 </table>
 @endsection

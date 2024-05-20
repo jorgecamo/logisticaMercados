@@ -32,10 +32,18 @@ Route::middleware(['auth', 'rol:admin'])->group(function () {
     })->name('admin.dashboard');
 
     Route::get('/admin/listado_usuarios', [AdminController::class, 'usuarios'])->name('admin.usuarios');
+    Route::get('/admin/baja_usuarios/{id}', [AdminController::class, 'darBajaUsuarios'])->name('baja.usuarios');
+    Route::post('/admin/anyadir_usuarios', [AdminController::class, 'anyadirUsuarios'])->name('anyadir.usuarios');
+
+
 
     Route::get('/admin/listado_puestos', [AdminController::class, 'puestos'])->name('admin.puestos');
+    Route::get('/admin/baja_puestos/{id}', [AdminController::class, 'darBajaPuestos'])->name('baja.puestos');
+    Route::post('/admin/anyadir_puestos', [AdminController::class, 'anyadirPuestos'])->name('anyadir.puestos');
 
     Route::get('/admin/listado_mercados', [AdminController::class, 'mercados'])->name('admin.mercados');
+    Route::get('/admin/baja_mercados/{id}', [AdminController::class, 'darBajaMercados'])->name('baja.mercados');
+    Route::post('/admin/anyadir_mercados', [AdminController::class, 'anyadirMercados'])->name('anyadir.mercados');
 
     Route::resource('admin', AdminController::class);
 

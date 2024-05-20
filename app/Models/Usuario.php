@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 
 class Usuario extends Authenticatable
 {
@@ -34,6 +35,7 @@ class Usuario extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
+        'contrasenya',
     ];
 
     /**
@@ -48,6 +50,17 @@ class Usuario extends Authenticatable
         ];
     }
 
+     /**
+     * Hash the user's password.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setContrasenyaAttribute($value)
+    {
+        $this->attributes['contrasenya'] = Hash::make($value);
+    }
+
     public function rol()
     {
         return $this->belongsTo(Rol::class, 'Id_rol');
@@ -55,7 +68,7 @@ class Usuario extends Authenticatable
 
     public function mercado()
     {
-        return $this->belongsTo(Mercado::class, 'Id_mercado ');
+        return $this->belongsTo(Mercado::class, 'Id_mercado');
     }
 
     public function puesto()
