@@ -40,7 +40,7 @@
     </table>
 
     <h1>Añadir Puestos</h1>
-    <form class="formularioPedido" action="{{ route('anyadir.puestos') }}" method="post">
+    <form class="formularioPuestos" action="{{ route('anyadir.puestos') }}" method="post">
         @csrf
         <table class="table table-striped" id="anyadirUsuarios">
             <tr>

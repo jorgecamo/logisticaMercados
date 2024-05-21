@@ -9,7 +9,10 @@
         <a class="nav-link" href="{{ route('conserje.index') }}">Lista pedidos</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">Añadir clientes</a>
+        <a class="nav-link" href="{{ route('conserje.clientes') }}">Añadir clientes</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('conserje.direcciones') }}">Añadir direcciones</a>
     </li>
     </ul>
     </div>

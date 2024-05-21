@@ -39,7 +39,7 @@
     </table>
 
     <h1>Añadir mercados</h1>
-    <form class="formularioPedido" action="{{ route('anyadir.mercados') }}" method="post">
+    <form class="formularioMercados" action="{{ route('anyadir.mercados') }}" method="post">
         @csrf
         <table class="table table-striped" id="anyadirMercados">
             <tr>

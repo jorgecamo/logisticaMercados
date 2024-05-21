@@ -7,7 +7,9 @@ use App\Models\Pedido;
 use App\Models\Puesto;
 use App\Models\Usuario;
 use App\Models\Cliente;
+use App\Models\Direccion;
 use App\Models\Estado_pedido;
+use App\Models\Localidad;
 use App\Models\Metodo_pago;
 use Illuminate\Support\Facades\Log;
 
@@ -118,5 +120,49 @@ class ConserjeController extends Controller
             ->select('pedidos.*')
             ->get();
         return view('conserje/vistaConserje', compact('pedidosfecha'));
+    }
+
+    public function clientes()
+    {
+        $conserje = auth()->user();
+        $Id_mercado = $conserje->Id_mercado;
+        return view('conserje/conserjeAnyadirClientes',compact('Id_mercado'));
+    }
+
+    public function anyadirClientes(Request $request)
+    {
+        $cliente = new Cliente();
+        $cliente->DNI = $request->get('DNI');
+        $cliente->nombre = $request->get('nombre');
+        $cliente->correo = $request->get('correo');
+        $cliente->telefono = $request->get('telefono');
+        $cliente->puntos = 0;
+        $cliente->Id_mercado = $request->get('Id_mercado');
+        $cliente->baja = 0;
+        $cliente->save();
+
+        return redirect()->route('conserje.direcciones', ['Id_cliente' => $cliente->Id_cliente])->with('success', 'Se ha añadido el cliente correctamente');
+    }
+
+    public function direcciones(Request $request)
+    {
+        $conserje = auth()->user();
+        $Id_mercado = $conserje->Id_mercado;
+        $localidades = Localidad::get();
+        $clientes = Cliente::where('baja', 0)->where('Id_mercado', $Id_mercado)->get();
+        $Id_cliente = $request->query('Id_cliente', null);
+
+        return view('conserje/conserjeAnyadirDirecciones', compact('Id_cliente','localidades','clientes'));
+    }
+
+    public function anyadirDirecciones(Request $request)
+    {
+        $direccion = new Direccion();
+        $direccion->direcciones = $request->get('direcciones');
+        $direccion->Id_cliente = $request->get('id_cliente');
+        $direccion->Id_localidad = $request->get('localidad');
+        $direccion->save();
+
+        return redirect()->route('conserje.direcciones')->with('success', 'Se ha añadido la direccion correctamente');
     }
 }

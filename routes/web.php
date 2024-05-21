@@ -22,6 +22,13 @@ Route::middleware(['auth', 'rol:conserje' ])->group(function () {
     Route::post('/conserje/actualizar-estado/{id}', [ConserjeController::class, 'actualizarEstado'])->name('conserje.actualizarEstado');
     Route::get('/conserje/ordenarPuesto', [ConserjeController::class, 'ordenarPorPuesto'])->name('conserje.ordenarPorPuesto');
     Route::get('/conserje/ordenarCliente', [ConserjeController::class, 'ordenarPorCliente'])->name('conserje.ordenarPorCliente');
+
+    Route::get('/admin/clientes', [ConserjeController::class, 'clientes'])->name('conserje.clientes');
+    Route::post('/conserje/anyadir_clientes', [ConserjeController::class, 'anyadirClientes'])->name('conserje.anyadirClientes');
+
+    Route::get('/admin/direcciones', [ConserjeController::class, 'direcciones'])->name('conserje.direcciones');
+    Route::post('/conserje/anyadir_direcciones', [ConserjeController::class, 'anyadirDirecciones'])->name('conserje.anyadirDirecciones');
+
     Route::resource('conserje', ConserjeController::class);
 });
 

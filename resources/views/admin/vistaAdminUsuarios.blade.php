@@ -48,7 +48,7 @@
     </table>
 
     <h1>Añadir usuarios</h1>
-    <form class="formularioPedido" action="{{ route('anyadir.usuarios') }}" method="post">
+    <form class="formularioUsuarios" action="{{ route('anyadir.usuarios') }}" method="post">
         @csrf
         <table class="table table-striped" id="anyadirUsuarios">
             <tr>
