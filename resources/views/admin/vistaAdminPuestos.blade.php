@@ -1,6 +1,20 @@
 @extends('plantillaAdmin')
 @section('titulo', 'Inicio')
 @section('contenido')
+
+    {{-- Mostrar mensajes de éxito o error --}}
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
     {{-- Vista para hacer un crud de puestos --}}
     <h1>Listado de puestos</h1>
     <table class="table table-striped" id="puestos">
@@ -45,8 +59,7 @@
                     </select>
                 </td>
                 <td><input type="text" name="nombre" class="form-control"
-                        placeholder="Introduce el nombre del nuevo puesto" pattern="^[A-Za-z0-9' .-]+$"
-                        required></td>
+                        placeholder="Introduce el nombre del nuevo puesto" pattern="^[A-Za-z0-9' .-]+$" required></td>
                 <td>
                     <select name="Id_usuario" class="form-control" required>
                         <option value="" disabled selected>Selecciona un usuario dueño del puesto</option>

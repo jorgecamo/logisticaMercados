@@ -1,6 +1,19 @@
 @extends('plantillaAdmin')
 @section('titulo', 'Inicio')
 @section('contenido')
+    {{-- Mostrar mensajes de éxito o error --}}
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
     {{-- Vista para hacer un crud de usuarios --}}
     <h1>Listado de usuarios</h1>
     <table class="table table-striped" id="usuarios">
@@ -9,8 +22,8 @@
             <th>Nombre</th>
             <th>Rol</th>
             <th>Telefono</th>
-            <th>Contraseña</th>
             <th>Mercado</th>
+            <th>Contraseña</th>
             <th>Dar de baja / alta</th>
         </tr>
         {{-- bucle para recorrer los usuarios pasados  --}}
@@ -48,22 +61,28 @@
                 <th>Acciones</th>
             </tr>
             <tr>
-                <td><input type="text" name="DNI" class="form-control" placeholder="Introduce el DNI del nuevo usuario" pattern="[0-9]{8}[A-Za-z]{1}" title="DNI debe tener al menos 8 numeros y una letra." required></td>
-                <td><input type="text" name="nombre" class="form-control" placeholder="Introduce el nombre del nuevo usuario" pattern="^[A-Z][a-z]+(?: [A-Z][a-z]+)*$" required></td>
+                <td><input type="text" name="DNI" class="form-control"
+                        placeholder="Introduce el DNI del nuevo usuario" pattern="[0-9]{8}[A-Za-z]{1}"
+                        title="DNI debe tener al menos 8 numeros y una letra." required></td>
+                <td><input type="text" name="nombre" class="form-control"
+                        placeholder="Introduce el nombre del nuevo usuario" pattern="^[A-Z][a-z]+(?: [A-Z][a-z]+)*$"
+                        required></td>
                 <td>
                     <select name="Id_rol" class="form-control" required>
                         <option value="" disabled selected>Selecciona un rol</option>
-                        @foreach($roles as $rol)
+                        @foreach ($roles as $rol)
                             <option value="{{ $rol->Id_rol }}">{{ $rol->rol }}</option>
                         @endforeach
                     </select>
                 </td>
-                <td><input type="tel" name="telefono" class="form-control" placeholder="Introduce el telefono del nuevo usuario" pattern="\d{9}" title="El teléfono debe tener entre 9 dígitos." required></td>
+                <td><input type="tel" name="telefono" class="form-control"
+                        placeholder="Introduce el telefono del nuevo usuario" pattern="\d{9}"
+                        title="El teléfono debe tener entre 9 dígitos." required></td>
                 <td><input type="password" name="contrasenya" class="form-control" required></td>
                 <td>
                     <select name="Id_mercado" class="form-control" required>
                         <option value="" disabled selected>Selecciona un mercado</option>
-                        @foreach($mercados as $mercado)
+                        @foreach ($mercados as $mercado)
                             <option value="{{ $mercado->Id_mercado }}">{{ $mercado->nombre }}</option>
                         @endforeach
                     </select>
