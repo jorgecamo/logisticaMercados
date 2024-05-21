@@ -5,7 +5,7 @@
         </title>
         @vite(['resources/sass/app.scss', 'resources/js/app.js'])  
         <!-- api de googlemaps para generar la mejor ruta de reparto  -->
-        <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCeU5HhFh_mm0jgzYGdz_SOLw4ZbB0oW5o&libraries=places"></script>
 
         <!-- Incluir CSS de Select2 -->
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />

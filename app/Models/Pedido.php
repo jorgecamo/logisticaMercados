@@ -24,7 +24,7 @@ class Pedido extends Model
         return $this->belongsTo('App\Models\Cliente', 'Id_cliente');
     }
 
-    public function direccion()
+    public function direccion_pedido()
     {
         return $this->belongsTo('App\Models\Direccion', 'Id_direccion');
     }

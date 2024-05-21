@@ -87,6 +87,7 @@ class ConserjeController extends Controller
     {
         $fecha = $request->input('fecha');
         $pedidosfecha = Pedido::where('fecha_pedido', $request->fecha)
+            ->orderBy('franja_horaria', 'asc')
             ->orderBy('Id_usuario', 'asc')
             ->get();
         return view('conserje/vistaConserje', compact('pedidosfecha'));
@@ -103,24 +104,28 @@ class ConserjeController extends Controller
     public function ordenarPorPuesto(Request $request)
     {
         $orden = $request->input('orden', 'desc');
+        $franjaHoraria = $request->input('franja_horaria');
+
         $pedidosfecha = Pedido::where('fecha_pedido', $request->fecha)
             ->join('usuarios', 'pedidos.Id_usuario', '=', 'usuarios.Id_usuario')
-            ->orderBy('usuarios.nombre', $orden)
+            ->orderBy('usuarios.nombre', 'asc')
             ->select('pedidos.*')
             ->get();
-        return view('conserje/vistaConserje', compact('pedidosfecha'));
-    }
+            return view('conserje/vistaConserje', compact('pedidosfecha', 'franjaHoraria'));
+        }
 
     public function ordenarPorCliente(Request $request)
     {
         $orden = $request->input('orden', 'desc');
+        $franjaHoraria = $request->input('franja_horaria');
+
         $pedidosfecha = Pedido::where('fecha_pedido', $request->fecha)
             ->join('clientes', 'pedidos.Id_cliente', '=', 'clientes.Id_cliente')
-            ->orderBy('clientes.nombre', $orden)
+            ->orderBy('clientes.nombre', 'desc')
             ->select('pedidos.*')
             ->get();
-        return view('conserje/vistaConserje', compact('pedidosfecha'));
-    }
+            return view('conserje/vistaConserje', compact('pedidosfecha', 'franjaHoraria'));
+        }
 
     public function clientes()
     {

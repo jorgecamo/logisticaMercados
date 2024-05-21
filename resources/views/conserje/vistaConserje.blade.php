@@ -2,6 +2,9 @@
 @section('titulo', 'Vista Conserje')
 @section('contenido')
 
+    @php
+        $currentFranja = null;
+    @endphp
 
     <h1>Lista de pedidos</h1>
     <form action="{{ route('conserje.filtrarPorFecha') }}" method="GET" id="formFecha">
@@ -9,66 +12,94 @@
         <button type="submit" id="fechaSubmit">Filtrar</button>
     </form>
     @if (!empty($pedidosfecha))
-        <table class="table table-striped" id="pedidosTabla">
-            <tr>
-                <th><a href="{{ route('conserje.ordenarPorPuesto', ['fecha' => request('fecha'), 'orden' => request('orden') == 'asc' ? 'desc' : 'asc']) }}"
-                        id="ordenarPorPuesto" class="text-decoration-none text-primary font-weight-bold mx-2"
-                        title="Ordenar por puesto">Puesto</a></th>
-                <th><a href="{{ route('conserje.ordenarPorCliente', ['fecha' => request('fecha'), 'orden' => request('orden') == 'asc' ? 'desc' : 'asc']) }}"
-                        id="ordenarPorCliente" class="text-decoration-none text-primary font-weight-bold mx-2"
-                        title="Ordenar por cliente">Cliente</th>
-                <th>Pagado</th>
-                <th>Total</th>
-                <th>Direccion</th>
-                <th>Nº Bultos</th>
-                <th>Franja Horaria</th>
-                <th>Estado</th>
-                <th>Mas infomación</th>
-            </tr>
-            @forelse ($pedidosfecha as $pedido)
-                <tr>
-                    <td>{{ $pedido->usuario->puesto->nombre }}</td>
-                    <td>{{ $pedido->cliente->nombre }}</td>
-                    <td>
-                        @if ($pedido['pagado'] == 1)
-                            <i class="fas fa-check-circle text-success"></i> Pagado
-                        @else
-                            <i class="fas fa-times-circle text-danger"></i> No pagado
-                        @endif
-                    </td>
-                    <td>{{ $pedido['total_pedido'] }} €</td>
-                    <td>{{ $pedido['direccion'] }}</td>
-                    <td>{{ $pedido['bultos'] }}</td>
-                    <td>{{ $pedido['franja_horaria'] }}</td>
-                    <td>
-                        <form action="{{ route('conserje.actualizarEstado', $pedido->Id_pedido) }}"
-                            id="form-{{ $pedido->Id_pedido }}" method="POST" class="formularioEstado">
-                            @csrf
-                            @method('POST')
-                            <select name="estado" class="selectEstado">
-                                <option value="1" {{ $pedido->estado_pedido->estados == 'Nuevo' ? 'selected' : '' }}>
-                                    Nuevo</option>
-                                <option value="2"
-                                    {{ $pedido->estado_pedido->estados == 'En_preparacion' ? 'selected' : '' }}>
-                                    En preparación</option>
-                                <option value="3"
-                                    {{ $pedido->estado_pedido->estados == 'Entregado' ? 'selected' : '' }}>Entregado
-                                </option>
-                                <option value="4"
-                                    {{ $pedido->estado_pedido->estados == 'Cancelado' ? 'selected' : '' }}>Cancelado
-                                </option>
-                            </select>
-                        </form>
-                    </td>
-                    <td><a class="btn btn-primary ver-mas" href="#" data-pedido="{{ $pedido->Id_pedido }}">VER
-                            MAS</a></td>
-                </tr>
-            @empty
-                <p>No se encontraron pedidos</p>
-            @endforelse
-
-        </table>
+        @foreach ($pedidosfecha->groupBy('franja_horaria') as $franjaHoraria => $pedidos)
+            <div id="tablasPedidos-{{ $franjaHoraria }}">
+                <h3>Franja Horaria: {{ $franjaHoraria }}</h3>
+                <table class="table table-striped" id="{{ $franjaHoraria }}">
+                    <thead>
+                        <tr>
+                            <th>
+                                <a href="{{ route('conserje.ordenarPorPuesto', ['fecha' => request('fecha'), 'orden' => request('orden') == 'asc' ? 'desc' : 'asc', 'franja_horaria' => $franjaHoraria]) }}"
+                                    class="text-decoration-none text-primary font-weight-bold mx-2"
+                                    title="Ordenar por puesto">Puesto</a>
+                            </th>
+                            <th>
+                                <a href="{{ route('conserje.ordenarPorCliente', ['fecha' => request('fecha'), 'orden' => request('orden') == 'asc' ? 'desc' : 'asc', 'franja_horaria' => $franjaHoraria]) }}"
+                                    class="text-decoration-none text-primary font-weight-bold mx-2"
+                                    title="Ordenar por cliente">Cliente</a>
+                            </th>
+                            <th>Pagado</th>
+                            <th>Total</th>
+                            <th>Direccion</th>
+                            <th>Nº Bultos</th>
+                            <th>Franja Horaria</th>
+                            <th>Estado</th>
+                            <th>Mas infomación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($pedidos as $pedido)
+                            <tr>
+                                <td>{{ $pedido->usuario->puesto->nombre }}</td>
+                                <td>{{ $pedido->cliente->nombre }}</td>
+                                <td style="display: none" id="direccionMercado">{{ $pedido->cliente->mercados->direccion }}
+                                </td>
+                                <td>
+                                    @if ($pedido['pagado'] == 1)
+                                        <i class="fas fa-check-circle text-success"></i> Pagado
+                                    @else
+                                        <i class="fas fa-times-circle text-danger"></i> No pagado
+                                    @endif
+                                </td>
+                                <td>{{ $pedido['total_pedido'] }} €</td>
+                                <td class="direccion">{{ $pedido['direccion'] }}</td>
+                                <td class="localidad" style="display: none">
+                                    {{ $pedido->direccion_pedido->localidad->localidad }}</td>
+                                <td>{{ $pedido['bultos'] }}</td>
+                                <td class="franja">{{ $pedido['franja_horaria'] }}</td>
+                                <td>
+                                    <form action="{{ route('conserje.actualizarEstado', $pedido->Id_pedido) }}"
+                                        id="form-{{ $pedido->Id_pedido }}" method="POST" class="formularioEstado">
+                                        @csrf
+                                        @method('POST')
+                                        <select name="estado" class="selectEstado">
+                                            <option value="1"
+                                                {{ $pedido->estado_pedido->estados == 'Nuevo' ? 'selected' : '' }}>Nuevo
+                                            </option>
+                                            <option value="2"
+                                                {{ $pedido->estado_pedido->estados == 'En_preparacion' ? 'selected' : '' }}>
+                                                En
+                                                preparación
+                                            </option>
+                                            <option value="3"
+                                                {{ $pedido->estado_pedido->estados == 'Entregado' ? 'selected' : '' }}>
+                                                Entregado</option>
+                                            <option value="4"
+                                                {{ $pedido->estado_pedido->estados == 'Cancelado' ? 'selected' : '' }}>
+                                                Cancelado</option>
+                                        </select>
+                                    </form>
+                                </td>
+                                <td><a class="btn btn-primary ver-mas" href="#"
+                                        data-pedido="{{ $pedido->Id_pedido }}">VER MAS</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                <a href="#" class="btn btn-secondary generarRuta" data-franja="{{ $franjaHoraria }}">Generar Ruta
+                    para
+                    {{ $franjaHoraria }}</a>
+                <hr>
+            </div>
+        @endforeach
+    @else
+        <p>No se encontraron pedidos</p>
     @endif
+    </div>
+
+
+
     <div id="datosCliente" style="display: none;">
         <h2>Datos Cliente</h2>
         <ul class="listaDatosCliente list-group list-group-flush mb-3" style="list-style-type:none;">
@@ -284,11 +315,38 @@
                 .then(response => response.text())
                 .then(data => {
                     // Reemplazar el contenido de la tabla con los datos actualizados
-                    document.getElementById('pedidosTabla').innerHTML = data;
+                    document.getElementById('tablasPedidos').innerHTML = data;
                 })
                 .catch(error => {
                     console.error('Error al ordenar por puesto:', error);
                 });
         }
+
+        //Aqui genero el mapa de google maps para la mejor ruta, cojo las direcciones de los pedidos con la misma franja horaria
+        $(document).on('click', '.generarRuta', function(event) {
+            event.preventDefault();
+            let franjaHoraria = $(this).data('franja');
+            let pedidos = [];
+
+            $('td.franja').each(function() {
+                if ($(this).text() === franjaHoraria) {
+                    let direccion = $(this).siblings('.direccion').text();
+                    let localidad = $(this).siblings('.localidad').text();
+                    let mercado = $('#direccionMercado').text();
+                    pedidos.push({
+                        direccion: direccion + ', ' + localidad,
+                        mercado: mercado
+                    });
+                }
+            });
+
+            let url = "https://www.google.com/maps/dir/";
+            pedidos.forEach(pedido => {
+                url += encodeURIComponent(pedido.direccion) + "/";
+            });
+            url += encodeURIComponent(pedidos[0].mercado);
+
+            window.open(url, '_blank');
+        });
     </script>
 @endsection

@@ -46,7 +46,7 @@ class LoginController extends Controller
                 } elseif ($usuario->Id_rol == $rolvendedor->Id_rol) {
                     $Id_usuario = $usuario->Id_usuario;
                     $clientes = Cliente::where('Id_mercado', $usuario->Id_mercado)->where('baja', false)->get();
-                    return view('vendedor/vistaVendedor', compact('clientes', 'Id_usuario'));
+                    return redirect()->route('vendedor.dashboard')->with(compact('clientes', 'Id_usuario'));
                 } else {
                     $clientes = Cliente::get();
                     return view('admin/vistaAdmin', compact('clientes'));

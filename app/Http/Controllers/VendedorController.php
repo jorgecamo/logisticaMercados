@@ -21,7 +21,7 @@ class VendedorController extends Controller
      */
     public function index()
     {
-        //
+//
     }
 
     /**
@@ -136,7 +136,9 @@ class VendedorController extends Controller
         $usuario = Usuario::where('Id_usuario', $Id_usuario)->firstOrFail();
         $clientes = Cliente::where('Id_mercado', $usuario->Id_mercado)->where('baja', false)->get(); //para cargar los clientes en el desplegable del mismo mercado que el usuario
         // Quiero hacer que cuando se inserte en la bbdd en la vsta del vendedor salga el qr que se imprime en el pedido para el conserje, y despues redireccione a la vista vendedor
-        return view('vendedor/vistaVendedor', compact('clientes', 'Id_usuario'));
+
+        return redirect()->route('vendedor.dashboard')->with(compact('clientes', 'Id_usuario'));
+
     }
 
     /**
@@ -169,5 +171,12 @@ class VendedorController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function vendedorIndex(Request $request)
+    {
+        $clientes = $request->session()->get('clientes');
+        $Id_usuario = $request->session()->get('Id_usuario');
+        return view('vendedor.vistaVendedor', compact('clientes', 'Id_usuario'));
     }
 }

@@ -9,7 +9,7 @@ class Direccion extends Model
 {
     use HasFactory;
     protected $table = 'direcciones';
-    protected $primaryKey = 'Id_direccion';
+    protected $primaryKey = 'Id_direcciones';
 
     public function cliente()
     {

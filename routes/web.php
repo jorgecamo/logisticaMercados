@@ -57,9 +57,8 @@ Route::middleware(['auth', 'rol:admin'])->group(function () {
 });
 
 Route::middleware(['auth', 'rol:vendedor'])->group(function () {
-    Route::get('/vendedor/dashboard', function () {
-        return view('vendedor.vistaVendedor');
-    })->name('vendedor.dashboard');
+    Route::get('/vendedor/dashboard', [VendedorController::class, 'vendedorIndex'])->name('vendedor.dashboard');
+
 
     Route::resource('vendedor', VendedorController::class);
 });
