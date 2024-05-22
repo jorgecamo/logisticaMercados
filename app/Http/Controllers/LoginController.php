@@ -40,15 +40,15 @@ class LoginController extends Controller
 
                 // Redirigir según el rol del usuario
                 if ($usuario->Id_rol == $rolconserje->Id_rol) {
-                    $this->registrarseComo($request, $usuario, 'conserje_id');
+                    $this->registrarseComo($request, $usuario, 'conserje');
 
                     return redirect()->route('conserje.dashboard');
                 } elseif ($usuario->Id_rol == $rolvendedor->Id_rol) {
-                    $this->registrarseComo($request, $usuario, 'vendedor_id');
+                    $this->registrarseComo($request, $usuario, 'vendedor');
 
                     return redirect()->route('vendedor.dashboard');
                 } elseif ($usuario->Id_rol == $roladministrador->Id_rol) {
-                    $this->registrarseComo($request, $usuario, 'administrador_id');
+                    $this->registrarseComo($request, $usuario, 'administrador');
                     return redirect()->route('admin.dashboard');
                 }
             } else {
@@ -59,16 +59,20 @@ class LoginController extends Controller
         }
     }
 
-    private function registrarseComo(Request $request, $usuario, $roleKey)
+    private function registrarseComo(Request $request, $usuario, $rol)
     {
         Auth::login($usuario);
-        $user = Auth::user();
-        $request->session()->put($roleKey, $user->Id_usuario);
+        $sessionKey = "{$rol}_id";
+        $request->session()->put($sessionKey, $usuario->Id_usuario);
     }
 
     public function logout(Request $request)
     {
         // Limpiar borrar sesion
+        $roles = ['administrador', 'vendedor', 'conserje'];
+        foreach ($roles as $role) {
+            $request->session()->forget("{$role}_id");
+        }
         Auth::logout();
         return redirect('/login');
     }

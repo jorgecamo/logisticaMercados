@@ -14,15 +14,23 @@ class RoleMiddleware
 {
     public function handle($request, Closure $next, ...$roles)
     {
-        if (Auth::check()) {
-            $user = Auth::user();
-            Log::debug($user->rol->rol);
-            // Log::debug($request->session()->all());
-            if (in_array($user->rol->rol, $roles)) {
-                return $next($request);
+        $guards = [
+            'administrador' => 'administrador_id',
+            'vendedor' => 'vendedor_id',
+            'conserje' => 'conserje_id'
+        ];
+        foreach ($roles as $rol ) {
+            if (isset($guards[$rol]) && $request->session()->has($guards[$rol])) {
+                $userId = $request->session()->get($guards[$rol]);
+                $user = Auth::loginUsingId($userId); 
+                if ($user && $user->rol->rol === $rol) {
+                    Log::debug('User rol:', [$user->rol->rol]);
+                    Log::debug('Session:', $request->session()->all());
+                    return $next($request);
+                }
             }
-        }
 
+        }
         return redirect('/access-denied');
     }
 }
