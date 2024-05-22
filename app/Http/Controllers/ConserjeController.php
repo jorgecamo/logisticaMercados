@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pedido;
 use App\Models\Puesto;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Models\Usuario;
 use App\Models\Cliente;
 use App\Models\Direccion;
@@ -169,5 +170,22 @@ class ConserjeController extends Controller
         $direccion->save();
 
         return redirect()->route('conserje.direcciones')->with('success', 'Se ha añadido la direccion correctamente');
+    }
+
+    public function actuaizarEstadoPedidoQR($id){
+        $pedido = Pedido::where('Id_pedido', $id)->firstOrFail();
+        if ($pedido->estado_pedido->estados == 'Nuevo') {
+            $pedido->Id_estado = 2;
+            $pedido->save();
+
+        }else if ($pedido->estado_pedido->estados == 'En_preparacion') {
+            $pedido->Id_estado = 3;
+            $pedido->save();
+        }
+        $qrCodeData = route('conserje.actualizarEstadoQR', ['id' => $pedido->Id_pedido]);
+        $qrCodePath = public_path('qrcodes/pedido_' . $pedido->Id_pedido . '.png');
+        QrCode::format('png')->size(200)->generate($qrCodeData, $qrCodePath);
+
+        return redirect()->back()->with('success', 'Estado del pedido y QR actualizados correctamente.');
     }
 }

@@ -11,6 +11,7 @@ use App\Models\Estado_pedido;
 use App\Models\Metodo_pago;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Log;
 
 
@@ -19,9 +20,11 @@ class VendedorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-//
+        $clientes = $request->session()->get('clientes');
+        $Id_usuario = $request->session()->get('Id_usuario');
+        return view('vendedor.vistaVendedor', compact('clientes', 'Id_usuario'));
     }
 
     /**
@@ -135,9 +138,17 @@ class VendedorController extends Controller
         $Id_usuario = $request->get('id_usuario');
         $usuario = Usuario::where('Id_usuario', $Id_usuario)->firstOrFail();
         $clientes = Cliente::where('Id_mercado', $usuario->Id_mercado)->where('baja', false)->get(); //para cargar los clientes en el desplegable del mismo mercado que el usuario
-        // Quiero hacer que cuando se inserte en la bbdd en la vsta del vendedor salga el qr que se imprime en el pedido para el conserje, y despues redireccione a la vista vendedor
 
-        return redirect()->route('vendedor.dashboard')->with(compact('clientes', 'Id_usuario'));
+        $conserjeController = new ConserjeController();
+        // Creacion del QR para cambiar el estado de este pedido
+        $qrCodeData = route('conserje.actualizarEstadoQR', ['id' => $pedido->Id_pedido]);
+        $qrCodePath = public_path('qrcodes/pedido_' . $pedido->Id_pedido . '.png');
+        QrCode::format('png')->size(200)->generate($qrCodeData, $qrCodePath);
+
+        $request->session()->put('clientes', $clientes);
+        $request->session()->put('Id_usuario', $Id_usuario);
+
+        return redirect()->route('vendedor.dashboard');
 
     }
 
@@ -173,10 +184,13 @@ class VendedorController extends Controller
         //
     }
 
-    public function vendedorIndex(Request $request)
+    public function escanearQR($id)
     {
-        $clientes = $request->session()->get('clientes');
-        $Id_usuario = $request->session()->get('Id_usuario');
-        return view('vendedor.vistaVendedor', compact('clientes', 'Id_usuario'));
+        // Llamar a la función de actualización de estado del pedido del controlador del conserje
+        $conserjeController = new ConserjeController();
+        $conserjeController->actuaizarEstadoPedidoQR($id);
+
+        // Redirigir u otra lógica después de actualizar el estado del pedido
+        return redirect()->route('vendedor.dashboard')->with('success', 'Estado del pedido actualizado correctamente.');
     }
 }

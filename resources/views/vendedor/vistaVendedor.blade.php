@@ -2,6 +2,11 @@
 @section('titulo', 'Inicio')
 @section('contenido')
 
+@php
+$clientes = session('clientes');
+$Id_usuario = session('Id_usuario');
+@endphp
+
     <form class="formularioPedido" action="{{ route('vendedor.store') }}" method="post">
         @csrf
         <input type="hidden" name="id_usuario" value="{{ $Id_usuario }}">

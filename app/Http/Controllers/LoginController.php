@@ -27,29 +27,29 @@ class LoginController extends Controller
      */
     public function login(Request $request)
     {
-
         try {
             // Buscar usuario por DNI
             $usuario = Usuario::where('DNI', $request->get('usuario'))->firstOrFail();
             // Verificar la contraseña
             if (Hash::check($request->get('contrasena'), $usuario->contrasenya)) {
-                // Iniciar sesión manualmente
-                Auth::login($usuario);
-
                 // Obtener roles
                 $rolconserje = Rol::where('rol', 'conserje')->firstOrFail();
                 $rolvendedor = Rol::where('rol', 'vendedor')->firstOrFail();
+                $roladministrador = Rol::where('rol', 'administrador')->firstOrFail();
+
 
                 // Redirigir según el rol del usuario
                 if ($usuario->Id_rol == $rolconserje->Id_rol) {
+                    $this->registrarseComo($request, $usuario, 'conserje_id');
+
                     return redirect()->route('conserje.dashboard');
                 } elseif ($usuario->Id_rol == $rolvendedor->Id_rol) {
-                    $Id_usuario = $usuario->Id_usuario;
-                    $clientes = Cliente::where('Id_mercado', $usuario->Id_mercado)->where('baja', false)->get();
-                    return redirect()->route('vendedor.dashboard')->with(compact('clientes', 'Id_usuario'));
-                } else {
-                    $clientes = Cliente::get();
-                    return view('admin/vistaAdmin', compact('clientes'));
+                    $this->registrarseComo($request, $usuario, 'vendedor_id');
+
+                    return redirect()->route('vendedor.dashboard');
+                } elseif ($usuario->Id_rol == $roladministrador->Id_rol) {
+                    $this->registrarseComo($request, $usuario, 'administrador_id');
+                    return redirect()->route('admin.dashboard');
                 }
             } else {
                 return redirect()->back()->withErrors(['contrasena' => 'Contraseña incorrecta']);
@@ -59,12 +59,16 @@ class LoginController extends Controller
         }
     }
 
-    /**
-     * Handle logout request.
-     */
+    private function registrarseComo(Request $request, $usuario, $roleKey)
+    {
+        Auth::login($usuario);
+        $user = Auth::user();
+        $request->session()->put($roleKey, $user->Id_usuario);
+    }
+
     public function logout(Request $request)
     {
-        // Limpiar el localStorage
+        // Limpiar borrar sesion
         Auth::logout();
         return redirect('/login');
     }

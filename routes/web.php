@@ -13,7 +13,7 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.store');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::middleware(['auth', 'rol:conserje' ])->group(function () {
+Route::middleware(['auth', 'rol:conserje,administrador' ])->group(function () {
     Route::get('/conserje/dashboard', function () {
         return view('conserje.vistaConserje');
     })->name('conserje.dashboard');
@@ -29,14 +29,15 @@ Route::middleware(['auth', 'rol:conserje' ])->group(function () {
     Route::get('/admin/direcciones', [ConserjeController::class, 'direcciones'])->name('conserje.direcciones');
     Route::post('/conserje/anyadir_direcciones', [ConserjeController::class, 'anyadirDirecciones'])->name('conserje.anyadirDirecciones');
 
+    Route::get('/conserje/actualizar-estadoqr/{id}', [ConserjeController::class, 'actuaizarEstadoPedidoQR'])->name('conserje.actualizarEstadoQR');
+
+
     Route::resource('conserje', ConserjeController::class);
 });
 
-Route::middleware(['auth', 'rol:admin'])->group(function () {
+Route::middleware(['auth', 'rol:administrador'])->group(function () {
 
-    Route::get('/admin/listado_clientes', function () {
-        return view('admin.vistaAdmin');
-    })->name('admin.dashboard');
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 
     Route::get('/admin/listado_usuarios', [AdminController::class, 'usuarios'])->name('admin.usuarios');
     Route::get('/admin/baja_usuarios/{id}', [AdminController::class, 'darBajaUsuarios'])->name('baja.usuarios');
@@ -56,9 +57,9 @@ Route::middleware(['auth', 'rol:admin'])->group(function () {
 
 });
 
-Route::middleware(['auth', 'rol:vendedor'])->group(function () {
-    Route::get('/vendedor/dashboard', [VendedorController::class, 'vendedorIndex'])->name('vendedor.dashboard');
-
+Route::middleware(['auth', 'rol:vendedor,administrador'])->group(function () {
+    Route::get('/vendedor/dashboard', [VendedorController::class, 'index'])->name('vendedor.dashboard');
+    Route::get('/vendedor/escanear-qr/{id}', [VendedorController::class, 'escanearQR'])->name('vendedor.escanearQR');
 
     Route::resource('vendedor', VendedorController::class);
 });
