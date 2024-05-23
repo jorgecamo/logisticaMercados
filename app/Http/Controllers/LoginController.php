@@ -64,6 +64,8 @@ class LoginController extends Controller
         Auth::login($usuario);
         $sessionKey = "{$rol}_id";
         $request->session()->put($sessionKey, $usuario->Id_usuario);
+        $request->session()->put('Id_usuario', $usuario->Id_usuario);
+
     }
 
     public function logout(Request $request)
@@ -74,6 +76,7 @@ class LoginController extends Controller
             $request->session()->forget("{$role}_id");
         }
         Auth::logout();
+        $request->session()->flush(); 
         return redirect('/login');
     }
 }

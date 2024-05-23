@@ -39,7 +39,14 @@ class ClienteController extends Controller
     public function show(string $id)
     {
         $cliente = Cliente::findOrFail($id);
-        $direcciones = $cliente->direcciones;
+        // Esto es para sacar las localidades que se encuentran en la tabla relacional para los repartos de los mercados
+        $direcciones_reparto = $cliente->mercados->localidadesRepartos->pluck('Id_localidad');
+        $direcciones = [];
+
+        // Y aqui guardo las direcciones del cliente que coincidan con las localidades asociadas al mercado del cliente, para mostrarlas al añadir el pedido
+        foreach ($direcciones_reparto as $localidad_id_reparto) {
+        $direcciones = array_merge($direcciones, $cliente->direcciones->where('Id_localidad', $localidad_id_reparto)->all());
+        }
 
         return compact('direcciones');
     }

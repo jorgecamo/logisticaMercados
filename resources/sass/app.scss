@@ -1,41 +1,147 @@
 // Fonts
-@import url('https://fonts.bunny.net/css?family=Nunito');
+@import url("https://fonts.bunny.net/css?family=Nunito");
 
 // Variables
-@import 'variables';
+@import "variables";
 
 // Bootstrap
-@import 'bootstrap/scss/bootstrap';
+@import "bootstrap/scss/bootstrap";
 
 @import "/node_modules/@fortawesome/fontawesome-free/css/all.css";
 
-
-.formularioLogin{
-    flex-direction: column;
-    width: 50%;
-    margin: 3rem;
+#contenedorLogin {
+    width: 70%;
+    margin: auto;
 }
-body{
-    width: 80%!important;
+.formularioLogin {
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+@media (max-width: 576px) {
+    .formularioLogin {
+        padding: 10px;
+    }
+}
+
+.formularioLogin label {
+    font-weight: bold;
+}
+body {
+    width: 100% !important;
+    background-color: #f4f7f6;
+    color: #333333;
+}
+
+//nav
+.navbar-brand {
+    font-weight: bold;
+}
+
+.navbar-nav .nav-link {
+    color: #333; /* Color de texto */
+    font-weight: 500; /* Peso de la fuente */
+    padding: 0.5rem 1rem; /* Espaciado interno */
+}
+
+.navbar-nav .nav-link:hover {
+    color: #007bff; /* Color de texto al pasar el ratón */
 }
 
 /* Define colores para los diferentes estados */
 .estado-nuevo {
-    background-color: #3498db!important; /* azul */
-    color: #fff!important; /* texto blanco */
+    background-color: #3498db !important; /* azul */
+    color: #fff !important; /* texto blanco */
 }
 
 .estado-enpreparacion {
-    background-color: #f39c12!important; /* naranja */
-    color: #fff!important;/* texto blanco */
+    background-color: #f39c12 !important; /* naranja */
+    color: #fff !important; /* texto blanco */
 }
 
 .estado-entregado {
-    background-color: #2ecc71!important; /* verde */
-    color: #fff!important; /* texto blanco */
+    background-color: #2ecc71 !important; /* verde */
+    color: #fff !important; /* texto blanco */
 }
 
 .estado-cancelado {
-    background-color: #e74c3c!important; /* rojo */
-    color: #fff!important; /* texto blanco */
+    background-color: #e74c3c !important; /* rojo */
+    color: #fff !important; /* texto blanco */
+}
+
+//Parte vendedor
+
+.formularioPedido {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 20px auto;
+}
+.form-group label {
+    margin-bottom: 0.5rem;
+}
+.formularioPedido .form-group input,
+.formularioPedido .form-group select {
+    background-color: #f9f9f9;
+    border: 1px solid #cccccc;
+    color: #333333;
+}
+.formularioPedido .form-group input::placeholder {
+    color: #999999;
+}
+.formularioPedido .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+.formularioPedido .btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+.alert-danger {
+    color: #ffffff;
+    background-color: #ff4c4c;
+    border-color: #ff4c4c;
+}
+
+//pie de pagina
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 18%;
+    padding: 15px 0;
+    border-top: 1px solid #dee2e6;
+}
+
+// Vista conserje
+.table thead th {
+    text-align: center;
+}
+.table tbody td {
+    text-align: center;
+    vertical-align: middle;
+}
+.generarRuta {
+    margin-top: 10px;
+}
+#datosCliente, #detallesPedido {
+    margin-top: 20px;
+}
+.ver-mas {
+    margin-top: 5px;
+}
+.listaDatosCliente {
+    margin: 0;
+}
+.selectEstado {
+    width: 100%;
+}
+#buscarFecha{
+    width: 30%;
 }

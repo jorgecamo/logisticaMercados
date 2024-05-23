@@ -24,8 +24,6 @@ class RoleMiddleware
                 $userId = $request->session()->get($guards[$rol]);
                 $user = Auth::loginUsingId($userId); 
                 if ($user && $user->rol->rol === $rol) {
-                    Log::debug('User rol:', [$user->rol->rol]);
-                    Log::debug('Session:', $request->session()->all());
                     return $next($request);
                 }
             }

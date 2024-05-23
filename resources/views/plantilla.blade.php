@@ -8,5 +8,7 @@
         <body>
             @include('partials.navInicio')
             @yield('contenido')
+            @include('footer.footer')
+
     </body>
 </html>

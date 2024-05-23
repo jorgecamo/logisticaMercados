@@ -22,9 +22,12 @@ class VendedorController extends Controller
      */
     public function index(Request $request)
     {
-        $clientes = $request->session()->get('clientes');
+        //Todo esto lo hago para cargar los clientes asociados al mercado que tiene el vendedor que esta creando el pedido
         $Id_usuario = $request->session()->get('Id_usuario');
-        return view('vendedor.vistaVendedor', compact('clientes', 'Id_usuario'));
+        $usuario = Usuario::where('Id_usuario', $Id_usuario)->firstOrFail();
+        $clientesMercado = Cliente::where('Id_mercado', $usuario->Id_mercado)->get();
+        $request->session()->put('clientes', $clientesMercado);
+        return view('vendedor.vistaVendedor', compact('clientesMercado', 'Id_usuario'));
     }
 
     /**
@@ -131,8 +134,12 @@ class VendedorController extends Controller
                 $pedido->franja_horaria = '11:00:00';
             }
         }
-        
-        $pedido->total_pedido = $request->get('total_pedido');
+        if ($request->get('total_pedido')>=5) {
+            $pedido->total_pedido = $request->get('total_pedido');
+        }else {
+            return redirect()->back()->withErrors(['error' => 'El total de pedido minimo tiene que ser 5 ']);
+        }
+       
         $pedido->save();
 
         $Id_usuario = $request->get('id_usuario');
@@ -182,15 +189,5 @@ class VendedorController extends Controller
     public function destroy(string $id)
     {
         //
-    }
-
-    public function escanearQR($id)
-    {
-        // Llamar a la función de actualización de estado del pedido del controlador del conserje
-        $conserjeController = new ConserjeController();
-        $conserjeController->actuaizarEstadoPedidoQR($id);
-
-        // Redirigir u otra lógica después de actualizar el estado del pedido
-        return redirect()->route('vendedor.dashboard')->with('success', 'Estado del pedido actualizado correctamente.');
     }
 }
