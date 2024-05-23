@@ -23,7 +23,7 @@
                     <th class="fs-3">DNI</th>
                     <th class="fs-3">Nombre</th>
                     <th class="fs-3">Rol</th>
-                    <th class="fs-3">Telefono</th>
+                    <th class="fs-3">Teléfono</th>
                     <th class="fs-3">Mercado</th>
                     <th class="fs-3">Dar de baja / alta</th>
                 </tr>
@@ -60,7 +60,7 @@
                         <th class="fs-3">DNI</th>
                         <th class="fs-3">Nombre</th>
                         <th class="fs-3">Rol</th>
-                        <th class="fs-3">Telefono</th>
+                        <th class="fs-3">Teléfono</th>
                         <th class="fs-3">Contraseña</th>
                         <th class="fs-3">Mercado</th>
                         <th class="fs-3">Acciones</th>
@@ -95,7 +95,7 @@
                                 @endforeach
                             </select>
                         </td>
-                        <td><button type="submit" class="btn fs-5 btn-primary">Añadir Usuario</button></td>
+                        <td><button type="submit" class="btn fs-5" style="background-color: #009483; color:#ffffff">Añadir Usuario</button></td>
                     </tr>
                 </tbody>
 

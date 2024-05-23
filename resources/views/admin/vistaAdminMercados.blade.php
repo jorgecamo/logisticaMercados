@@ -22,7 +22,7 @@
                 <tr>
                     <th class="fs-3">Nombre</th>
                     <th class="fs-3">Localidad</th>
-                    <th class="fs-3">Direccion</th>
+                    <th class="fs-3">Dirección</th>
                     <th class="fs-3">Dar de baja / alta</th>
                 </tr>
             </thead>
@@ -53,7 +53,7 @@
                     <tr>
                         <th class="fs-3">Nombre</th>
                         <th class="fs-3">Localidad</th>
-                        <th class="fs-3">Direccion</th>
+                        <th class="fs-3">Dirección</th>
                         <th class="fs-3">Acciones</th>
                     </tr>
                 </thead>
@@ -76,21 +76,12 @@
                                 title="Añade la direccion de ese mercado"
                                 placeholder="Introduce la direccion del nuevo mercado" pattern="^[A-Za-z0-9' .-]+$"
                                 required></td>
-                        <td><button type="submit" class="btn btn-primary fs-5 ">Añadir Mercado</button></td>
+                        <td><button type="submit" class="btn fs-5 " style="background-color: #009483; color:#ffffff">Añadir Mercado</button></td>
                     </tr>
                 </tbody>
 
             </table>
         </form>
     </div>
-
-
-    <script>
-        $(document).ready(function() {
-            $('#localidadSelect').select2({
-                placeholder: 'Selecciona una localidad',
-                allowClear: true
-            });
-        });
-    </script>
+    <script src="{{asset('js/selectBuscador.js')}}"></script>
 @endsection

@@ -21,7 +21,7 @@
                 <tr>
                     <th class="fs-3">DNI</th>
                     <th class="fs-3">Nombre</th>
-                    <th class="fs-3">Telefono</th>
+                    <th class="fs-3">Teléfono</th>
                     <th class="fs-3">Correo</th>
                     <th class="fs-3">Puntos</th>
                     <th class="fs-3">Mercado</th>

@@ -3,7 +3,7 @@
 @section('contenido')
 
 <div class="d-flex flex-column justify-content-center align-items-center" id="contenedorLogin">
-        <p class=" fs-1">Logistica Mercados</p>
+        <p class=" fs-1">Logística Mercados</p>
     <img src="{{ asset('images/logotipo.png')}}" alt="Imagen Logotipo" class="mb-4">
     <form class="formularioLogin mb-5" action="{{ route('login.store') }}" method="POST">
         @csrf

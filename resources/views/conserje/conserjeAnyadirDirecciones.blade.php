@@ -15,7 +15,7 @@
             <table class="table table-striped" id="anyadirClientes">
                 <thead class="thead-dark">
                     <tr>
-                        <th class="fs-3">Direccion</th>
+                        <th class="fs-3">Dirección</th>
                         <th class="fs-3">Cliente</th>
                         <th class="fs-3">Localidad</th>
                         <th class="fs-3">Acciones</th>
@@ -52,12 +52,5 @@
         </form>
     </div>
 
-    <script>
-        $(document).ready(function() {
-            $('#localidadSelect').select2({
-                placeholder: 'Selecciona una localidad',
-                allowClear: true
-            });
-        });
-    </script>
+    <script src="{{asset('js/selectBuscador.js')}}"></script>
 @endsection

@@ -81,7 +81,7 @@
                                 @endforeach
                             </select>
                         </td>
-                        <td><button type="submit" class="btn btn-primary fs-5">Añadir Puesto</button></td>
+                        <td><button type="submit" class="btn fs-5" style="background-color: #009483; color:#ffffff">Añadir Puesto</button></td>
                     </tr>
                 </tbody>
 

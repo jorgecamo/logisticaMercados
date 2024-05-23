@@ -29,7 +29,7 @@ $Id_usuario = session('Id_usuario');
         </div>
 
         <div class="from-group mt-4">
-            <label for="bultos"  class="fs-3 fw-bold">Numero de bultos:</label>
+            <label for="bultos"  class="fs-3 fw-bold">Número de bultos:</label>
             <input type="number" class="form-control" id="bultos" name="bultos" min="1" step="1" max="10"
                 onchange="actualizarMaximo()" value="1">
             <label for="bultos_perecederos"  class="fs-3 fw-bold">Bultos perecederos:</label>
@@ -68,49 +68,8 @@ $Id_usuario = session('Id_usuario');
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#pagado').change(function() {
-                if ($(this).is(":checked")) {
-                    $('#metodos_pago').hide();
-                } else {
-                    $('#metodos_pago').show();
-                }
-            });
-        });
+    <script src="{{asset('js/metodoPago.js')}}"></script>
+    <script src="{{asset('js/actualizarMaximo.js')}}"></script>
+    <script src="{{asset('js/cargarDirecciones.js')}}"></script>
 
-        function actualizarMaximo() {
-            var bultos = document.getElementById("bultos").value;
-            var bultosPerecederosInput = document.getElementById("bultos_perecederos");
-
-            bultosPerecederosInput.setAttribute("max", bultos);
-        }
-
-        $(document).ready(function() {
-            $('#id_cliente').change(function() {
-                var Id_cliente = $(this).val();
-                $.ajax({
-                    url: '/clientes/' +
-                        Id_cliente, // Corregido a '/clientes/' en lugar de '/cliente.show/'
-                    type: 'GET',
-                    success: function(response) {
-                        $('#direccion').empty();
-                        if (response.direcciones.length === 0) {
-                            $('#direccion').append(
-                                '<option value="">No tiene direcciones</option>');
-                        } else {
-                            $.each(response.direcciones, function(key, value) {
-                                $('#direccion').append('<option value="' + value
-                                    .direcciones + '">' + value.direcciones +
-                                    '</option>');
-                            });
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(xhr.responseText);
-                    }
-                });
-            });
-        });
-    </script>
 @endsection
