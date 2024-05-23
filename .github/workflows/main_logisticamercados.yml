@@ -40,10 +40,6 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Archive production artifacts
-        run: zip -r build.zip build/
-
-
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
