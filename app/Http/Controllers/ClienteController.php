@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Models\Cliente;
+use App\Models\Pedido;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 
 
 class ClienteController extends Controller
@@ -14,23 +18,16 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        //
+        return view('cliente/loginCliente');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function clienteDashboard($id)
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        $cliente = Cliente::findOrFail($id);
+        $pedidos = Pedido::where('Id_cliente', $cliente->Id_cliente)
+        ->orderBy('fecha_pedido', 'asc')
+        ->get();
+        return view('cliente/pedidosCliente', compact('cliente','pedidos'));
     }
 
     /**
@@ -51,27 +48,20 @@ class ClienteController extends Controller
         return compact('direcciones');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function login(Request $request)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        try {
+            // Buscar cliente por DNI
+            $cliente = Cliente::where('DNI', $request->get('cliente'))->firstOrFail();
+            // Verificar la contraseña
+            if (Hash::check($request->get('contrasena'), $cliente->contrasenya)) {
+                // Si es la contraseña se redirige a la zona de clientes que muestra sus pedidos.
+                return redirect()->route('cliente.dashboard', ['id' => $cliente->Id_cliente]);
+            } else {
+                return redirect()->back()->withErrors(['contrasena' => 'Contraseña incorrecta']);
+            }
+        } catch (ModelNotFoundException $exception) {
+            return redirect()->back()->withErrors(['cliente' => 'Cliente no encontrado']);
+        }
     }
 }

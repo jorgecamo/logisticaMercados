@@ -16,6 +16,11 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.store');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
+Route::get('/clientes', [ClienteController::class, 'index'])->name('clientes.login');
+Route::post('/clientes/log', [ClienteController::class, 'login'])->name('clientesLogin');
+Route::get('/cliente/dashboard/{id}', [ClienteController::class, 'clienteDashboard'])->name('cliente.dashboard');
+
+
 Route::middleware(['auth', 'rol:conserje,administrador' ])->group(function () {
     Route::get('/conserje/dashboard', function () {
         return view('conserje.vistaConserje');

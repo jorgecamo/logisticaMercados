@@ -142,6 +142,7 @@ class ConserjeController extends Controller
         $cliente->nombre = $request->get('nombre');
         $cliente->correo = $request->get('correo');
         $cliente->telefono = $request->get('telefono');
+        $cliente->contrasenya = $request->get('contrasenya');
         $cliente->puntos = 0;
         $cliente->Id_mercado = $request->get('Id_mercado');
         $cliente->baja = 0;

@@ -141,6 +141,10 @@ class VendedorController extends Controller
         }
        
         $pedido->save();
+        // Sumar 1 punto por euro gastado al cliente
+        $clientePedido = Cliente::where('Id_cliente', $pedido->Id_cliente)->firstOrFail();
+        $clientePedido->puntos += $pedido->total_pedido;
+        $clientePedido->save();
 
         $Id_usuario = $request->get('id_usuario');
         $usuario = Usuario::where('Id_usuario', $Id_usuario)->firstOrFail();
@@ -156,8 +160,8 @@ class VendedorController extends Controller
         $request->session()->put('clientes', $clientes);
         $request->session()->put('Id_usuario', $Id_usuario);
 
-        //Paso el qr para que se vea que se ha creado pero se deberia de imprimir
-        return redirect()->route('vendedor.dashboard')->with('ruta', $ruta);
+        //Paso el qr para que se vea que se ha creado pero se deberia de imprimir 
+        return redirect()->route('vendedor.dashboard')->with('ruta', $ruta)->with('success', 'Se ha añadido el pedido correctamente, y se han actualizado los puntos');
 
     }
 

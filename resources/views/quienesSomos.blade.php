@@ -2,7 +2,7 @@
 @section('titulo', 'Quienes somos')
 @section('contenido')
 <div class="container">
-    <p class=" fs-1">¿Quienes somos?</p>
+    <p class=" fs-1">¿Quiénes somos?</p>
 
     <br>
     <p class="fs-4">Logística mercados consiste en el desarrollo de una aplicación para organizar

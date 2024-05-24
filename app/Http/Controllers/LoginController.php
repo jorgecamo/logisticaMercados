@@ -22,9 +22,6 @@ class LoginController extends Controller
         return view('inicio');
     }
 
-    /**
-     * Handle the login request.
-     */
     public function login(Request $request)
     {
         try {

@@ -7,10 +7,7 @@
                     <a class="nav-link fs-5" href="{{ route('logout') }}">Inicio</a>
                 </li>
                 <li class="nav-item me-4">
-                    <a class="nav-link fs-5" href="{{ route('clientes.login')}}">Login clientes</a>
-                </li>
-                <li class="nav-item me-4">
-                    <a class="nav-link fs-5" href="{{ route('quienesSomos') }}">¿Quiénes Somos?</a>
+                    <a class="nav-link fs-5" href="#">Premios</a>
                 </li>
             </ul>
         </div>

@@ -6,6 +6,7 @@
     <div class="container">
         <form class="formularioClientes" action="{{ route('conserje.anyadirClientes') }}" method="post">
             @csrf
+            <input type="hidden" name="Id_mercado" value="{{ $Id_mercado }}"">
             <table class="table table-striped" id="anyadirClientes">
                 <thead class="thead-dark">
                     <tr>
@@ -13,6 +14,7 @@
                         <th class="fs-3">DNI</th>
                         <th class="fs-3">Teléfono</th>
                         <th class="fs-3">Correo</th>
+                        <th class="fs-3">Constraseña</th>
                         <th class="fs-3">Acciones</th>
                     </tr>
                 </thead>
@@ -36,8 +38,7 @@
                                 placeholder="Introduce el correo del nuevo cliente"
                                 pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Introduce el correo del nuevo cliente." required>
                         </td>
-
-                        <td><input type="hidden" name="Id_mercado" value="{{ $Id_mercado }}"></td>
+                        <td><input type="password" name="contrasenya" class="form-control" required></td>
                         <td><button type="submit" class="btn fs-5" style="background-color: #009483; color:#ffffff">Añadir Cliente</button></td>
                     </tr>
                 </tbody>
