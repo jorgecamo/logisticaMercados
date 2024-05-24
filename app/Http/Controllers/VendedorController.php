@@ -151,11 +151,13 @@ class VendedorController extends Controller
         $qrCodeData = route('conserje.actualizarEstadoQR', ['id' => $pedido->Id_pedido]);
         $qrCodePath = public_path('qrcodes/pedido_' . $pedido->Id_pedido . '.png');
         QrCode::format('png')->size(200)->generate($qrCodeData, $qrCodePath);
+        $ruta= 'qrcodes/pedido_' .  $pedido->Id_pedido . '.png';
 
         $request->session()->put('clientes', $clientes);
         $request->session()->put('Id_usuario', $Id_usuario);
 
-        return redirect()->route('vendedor.dashboard');
+        //Paso el qr para que se vea que se ha creado pero se deberia de imprimir
+        return redirect()->route('vendedor.dashboard')->with('ruta', $ruta);
 
     }
 

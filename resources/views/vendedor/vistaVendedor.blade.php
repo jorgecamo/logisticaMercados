@@ -60,11 +60,20 @@ $Id_usuario = session('Id_usuario');
             <button type="reset" class="btn" style="background-color: #006358; color:#ffffff">Borrar</button>
         </div>
     </form>
-    @if($errors->any())
+    <div class="container">
+            @if($errors->any())
     <div class="alert alert-danger">
         {{$errors->first('error')}}
     </div>
     @endif
+    @if (session('ruta'))
+    <div class="alert alert-success">
+        <p>Imprime el siguiente código QR para cambiar el estado del pedido:</p>
+        <a href="{{ asset(session('ruta')) }}" target="_blank">Clicka para imprimir el QR</a>
+    </div>
+    @endif
+    </div>
+
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
