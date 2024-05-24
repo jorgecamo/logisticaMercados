@@ -4,7 +4,7 @@
 
 <div class="d-flex flex-column justify-content-center align-items-center" id="contenedorLogin">
         <p class=" fs-1">Logística Mercados</p>
-    <img src="{{ asset('images/logotipo.png')}}" alt="Imagen Logotipo" class="mb-4">
+    <img src="{{ asset('images/logotipo.png')}}" alt="Imagen Logotipo" style="width: 500px;" class="mb-4">
     <form class="formularioLogin mb-5" action="{{ route('login.store') }}" method="POST">
         @csrf
         <div class="form-group mb-4"> 

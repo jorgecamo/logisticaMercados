@@ -3,11 +3,16 @@
         <div class="row">
             <div class="col-md-6">
                 <h5>Política de privacidad</h5>
-                <p>Texto sobre la política de privacidad de tu sitio web...</p>
+                <p class="fs-6">En Logistica Mercados, nos comprometemos a proteger su información personal.
+                    Recopilamos y utilizamos sus datos solo para mejorar nuestros servicios de logística y repartos a
+                    domicilio. Para
+                    más detalles, consulte nuestra <a href="#">Política de Privacidad completa</a>.</p>
             </div>
             <div class="col-md-6">
                 <h5>Términos y condiciones</h5>
-                <p>Texto sobre los términos y condiciones de uso de tu sitio web...</p>
+                <p> Al utilizar nuestros servicios de logística y repartos a domicilio, acepta nuestros <a>Términos y
+                    Condiciones</a> y nuestra <a href="#">Política de Privacidad completa</a>. Por favor, lea atentamente.
+                </p>
             </div>
         </div>
         <hr>
