@@ -18,7 +18,6 @@ class CreateEstadosPedidoTable extends Migration
             $table->string('estados', 50);
             $table->timestamps();
 
-            $table->primary('Id_estado');
         });
     }
 
