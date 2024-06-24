@@ -12,7 +12,6 @@ Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 Route::get('/quienes-somos', function () {
     return view('quienesSomos');
 })->name('quienesSomos');
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.store');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
