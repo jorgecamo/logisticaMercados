@@ -14,8 +14,8 @@ class CreateMercadoRepartosLocalidadesTable extends Migration
     public function up()
     {
         Schema::create('mercado_repartos_localidades', function (Blueprint $table) {
-            $table->unsignedInteger('Id_mercado')->nullable();
-            $table->unsignedInteger('Id_localidad')->nullable();
+            $table->unsignedInteger('Id_mercado');
+            $table->unsignedInteger('Id_localidad');
             $table->timestamps();
             
             $table->primary(['Id_mercado', 'Id_localidad']);
